@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Script to filter out specific chromosomes from a BED file
-# Usage: ./filter_bed.sh input.bed output.bed "chrM chrUn chrEBV"
+# Usage: ./filterBED.sh input.bed output.bed "chrM chrUn chrEBV"
 
 # Arguments
 INPUT=$1
