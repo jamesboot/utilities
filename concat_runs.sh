@@ -57,8 +57,8 @@ for i in $(seq 1 ${LINES1}); do
 done
 
 # Now create a new samplesheet with the concatenated reads
-# Use the 01_samplesheet.sh script to create the samplesheet
-bash /nemo/stp/babs/working/bootj/github/RNA_SHAPE/tRNA/01_samplesheet.sh ${OUTDIR} ${OUTDIR}/samplesheet_concat.csv
+# Use the samplesheet.sh script to create the samplesheet
+bash /nemo/stp/babs/working/bootj/github/utilities/samplesheet.sh ${OUTDIR} ${OUTDIR}/samplesheet_concat.csv
 
 # Check if the samplesheet was created successfully
 if [[ ! -f ${OUTDIR}/samplesheet_concat.csv ]]; then
