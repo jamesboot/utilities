@@ -58,7 +58,7 @@ done
 
 # Now create a new samplesheet with the concatenated reads
 # Use the samplesheet.sh script to create the samplesheet
-bash /nemo/stp/babs/working/bootj/github/utilities/samplesheet.sh ${OUTDIR} ${OUTDIR}/samplesheet_concat.csv
+bash /nemo/stp/babs/working/bootj/github/utilities/samplesheet.sh -d ${OUTDIR} -o ${OUTDIR}/samplesheet_concat.csv
 
 # Check if the samplesheet was created successfully
 if [[ ! -f ${OUTDIR}/samplesheet_concat.csv ]]; then
