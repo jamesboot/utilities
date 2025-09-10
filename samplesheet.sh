@@ -7,24 +7,32 @@
 # -o: Output file name (default: samplesheet.csv)
 
 usage() {
-    echo "Usage: $0 -d <directory> [-n] [-o output.csv]"
+    echo "Usage: $0 -d <directory> [-n] [-o output.csv] [-1 R1_suffix] [-2 R2_suffix]"
     echo "  -d: Directory to search in (required)"
     echo "  -n: No header in output CSV"
     echo "  -o: Output file name (default: samplesheet.csv)"
+    echo "  -1: Suffix pattern for R1 files (default: R1_001.fastq)"
+    echo "  -2: Suffix pattern for R2 files (default: R2_001.fastq)"
     exit 1
 }
+
 
 # Default values
 output_file="samplesheet.csv"
 include_header=true
 search_dir=""
+R1_suffix="R1_001.fastq"
+R2_suffix="R2_001.fastq"
+
 
 # Parse command line arguments
-while getopts "d:no:" opt; do
+while getopts "d:no:1:2:" opt; do
     case $opt in
         d) search_dir="$OPTARG" ;;
         n) include_header=false ;;
         o) output_file="$OPTARG" ;;
+        1) R1_suffix="$OPTARG" ;;
+        2) R2_suffix="$OPTARG" ;;
         ?) usage ;;
     esac
 done
@@ -48,9 +56,10 @@ r2_file="$temp_dir/r2.txt"
 r1_sort="$temp_dir/r1_sort.txt"
 r2_sort="$temp_dir/r2_sort.txt"
 
-# Find R1 and R2 files (both gzipped and non-gzipped)
-find -L "$search_dir" -type f \( -name "*R1_001.fastq.gz" -o -name "*R1_001.fastq" \) > "$r1_file"
-find -L "$search_dir" -type f \( -name "*R2_001.fastq.gz" -o -name "*R2_001.fastq" \) > "$r2_file"
+
+# Find R1 and R2 files (support custom suffixes and both gzipped/non-gzipped)
+find -L "$search_dir" -type f \( -name "*${R1_suffix}.gz" -o -name "*${R1_suffix}" \) > "$r1_file"
+find -L "$search_dir" -type f \( -name "*${R2_suffix}.gz" -o -name "*${R2_suffix}" \) > "$r2_file"
 
 # Check if any files were found
 if [ ! -s "$r1_file" ]; then
