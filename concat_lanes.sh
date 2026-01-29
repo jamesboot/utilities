@@ -26,11 +26,12 @@ mkdir -p ${OUTDIR}
 # Merge R1 and R2 reads from different lanes for each sample
 for SAMPLE in $(ls ${FASTQDIR} | grep -oP '^[^_]+' | sort -u); do
     # Find all R1 and R2 files for the sample
-    R1_FILES=$(ls ${FASTQDIR}/${SAMPLE}*_R1*.fastq.gz)
-    R2_FILES=$(ls ${FASTQDIR}/${SAMPLE}*_R2*.fastq.gz)
+    R1_FILES=$(ls ${FASTQDIR}/${SAMPLE}_*_R1*.fastq.gz)
+    R2_FILES=$(ls ${FASTQDIR}/${SAMPLE}_*_R2*.fastq.gz)
     # Merge R1 files
     if [ -n "${R1_FILES}" ]; then
         cat ${R1_FILES} > ${OUTDIR}/${SAMPLE}_R1_001.fastq.gz
+        echo "${SAMPLE} R1 files: ${R1_FILES}"
         echo "Merged R1 reads for sample ${SAMPLE} into ${OUTDIR}/${SAMPLE}_R1_001.fastq.gz"
     else
         echo "No R1 files found for sample ${SAMPLE}"
@@ -38,6 +39,7 @@ for SAMPLE in $(ls ${FASTQDIR} | grep -oP '^[^_]+' | sort -u); do
     # Merge R2 files
     if [ -n "${R2_FILES}" ]; then
         cat ${R2_FILES} > ${OUTDIR}/${SAMPLE}_R2_001.fastq.gz
+        echo "${SAMPLE} R2 files: ${R2_FILES}"
         echo "Merged R2 reads for sample ${SAMPLE} into ${OUTDIR}/${SAMPLE}_R2_001.fastq.gz"
     else
         echo "No R2 files found for sample ${SAMPLE}"
